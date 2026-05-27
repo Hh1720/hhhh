@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)file:///D:/portfolio/index.html#contact -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人作品集 - AI 产品运营</title>
+<style>
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ===== Canvas Background ===== */
+  #bg-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* ===== Navigation ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,15,0.85);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  nav .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.5px; }
+  nav .logo span { background: linear-gradient(135deg, #6c5ce7, #00b894); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  nav ul { display: flex; list-style: none; gap: 2rem; }
+  nav ul a { font-size: 0.9rem; font-weight: 500; transition: color 0.3s; position: relative; }
+  nav ul a:hover { color: #6c5ce7; }
+  nav ul a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+    background: #6c5ce7; transition: width 0.3s;
+  }
+  nav ul a:hover::after { width: 100%; }
+  .nav-toggle { display: none; background: none; border: none; color: #e0e0e0; font-size: 1.5rem; cursor: pointer; }
+
+  /* ===== Sections Common ===== */
+  section { position: relative; z-index: 1; padding: 6rem 2rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 1px;
+    color: #6c5ce7; text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 3rem; }
+  .section-title::after {
+    content: ''; display: block; width: 60px; height: 3px;
+    background: linear-gradient(135deg, #6c5ce7, #00b894); margin-top: 0.75rem; border-radius: 2px;
+  }
+
+  /* ===== Hero ===== */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center; padding-top: 60px;
+  }
+  #hero .container { display: flex; align-items: center; gap: 4rem; flex-wrap: wrap; }
+  .hero-text { flex: 1; min-width: 300px; }
+  .hero-greeting { font-size: 1rem; color: #6c5ce7; font-weight: 600; letter-spacing: 2px; margin-bottom: 0.5rem; }
+  .hero-name { font-size: 3.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.75rem; }
+  .hero-name span { background: linear-gradient(135deg, #6c5ce7, #00b894, #6c5ce7); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 3s ease infinite; }
+  @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50%{ background-position: 100% 50%; } }
+  .hero-title { font-size: 1.25rem; color: #a0a0b8; font-weight: 500; margin-bottom: 1.5rem; }
+  .hero-desc { font-size: 1rem; color: #8888a0; max-width: 480px; margin-bottom: 2rem; line-height: 1.8; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: all 0.3s; border: none;
+  }
+  .btn-primary { background: linear-gradient(135deg, #6c5ce7, #5a4bd1); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.35); }
+  .btn-outline { background: transparent; border: 1.5px solid rgba(108,92,231,0.5); color: #c0c0d0; }
+  .btn-outline:hover { border-color: #6c5ce7; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.2); }
+
+  .hero-avatar {
+    flex-shrink: 0; width: 260px; height: 260px; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(0,184,148,0.15));
+    border: 2px solid rgba(108,92,231,0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 5rem;
+    position: relative;
+  }
+  .hero-avatar::before {
+    content: ''; position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px dashed rgba(108,92,231,0.2); animation: spin 20s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== About ===== */
+  #about { background: rgba(255,255,255,0.015); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .about-text p { color: #a0a0b8; margin-bottom: 1rem; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-card {
+    background: rgba(108,92,231,0.06); border: 1px solid rgba(108,92,231,0.12);
+    border-radius: 12px; padding: 1.5rem; text-align: center;
+  }
+  .stat-card .num { font-size: 2rem; font-weight: 700; color: #6c5ce7; }
+  .stat-card .label { font-size: 0.85rem; color: #8888a0; margin-top: 0.25rem; }
+
+  /* ===== Skills ===== */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .skill-category {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px; padding: 2rem;
+  }
+  .skill-category h3 { font-size: 1.1rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+  .skill-category h3 .icon { font-size: 1.3rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+    background: rgba(108,92,231,0.1); color: #b0b0d0;
+    border: 1px solid rgba(108,92,231,0.15); transition: all 0.3s;
+  }
+  .skill-tag:hover { background: rgba(108,92,231,0.2); color: #fff; transform: translateY(-1px); }
+
+  /* ===== Experience Timeline ===== */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 2px; background: linear-gradient(to bottom, #6c5ce7, #00b894);
+  }
+  .timeline-item { position: relative; margin-bottom: 3rem; }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -2.35rem; top: 0.5rem;
+    width: 12px; height: 12px; border-radius: 50%; background: #6c5ce7;
+    box-shadow: 0 0 12px rgba(108,92,231,0.5);
+  }
+  .timeline-header { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: baseline; margin-bottom: 0.5rem; }
+  .timeline-role { font-size: 1.2rem; font-weight: 700; }
+  .timeline-company { color: #6c5ce7; font-weight: 600; }
+  .timeline-date { font-size: 0.85rem; color: #8888a0; }
+  .timeline-desc { color: #a0a0b8; }
+  .timeline-desc ul { list-style: none; }
+  .timeline-desc ul li { padding: 0.3rem 0; padding-left: 1.25rem; position: relative; }
+  .timeline-desc ul li::before { content: '→'; position: absolute; left: 0; color: #00b894; font-size: 0.8rem; }
+
+  /* ===== Projects ===== */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px; padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #6c5ce7, #00b894); opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover { border-color: rgba(108,92,231,0.2); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem; }
+  .project-card p { color: #8888a0; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.7; }
+  .project-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .project-meta span {
+    padding: 0.25rem 0.7rem; border-radius: 12px; font-size: 0.78rem;
+    background: rgba(108,92,231,0.1); color: #6c5ce7;
+  }
+  .project-card .link { display: inline-block; margin-top: 1rem; color: #00b894; font-weight: 600; font-size: 0.9rem; }
+  .project-card .link:hover { text-decoration: underline; }
+
+  /* ===== Contact ===== */
+  #contact { text-align: center; }
+  .contact-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
+  .contact-link {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    padding: 1.5rem 2rem; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 14px;
+    transition: all 0.3s; min-width: 140px;
+  }
+  .contact-link:hover { border-color: rgba(108,92,231,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,92,231,0.15); }
+  .contact-link .icon { font-size: 1.8rem; }
+  .contact-link .label { font-size: 0.9rem; font-weight: 600; }
+  .contact-link .value { font-size: 0.8rem; color: #8888a0; }
+
+  /* ===== Footer ===== */
+  footer { text-align: center; padding: 2rem; color: #666680; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.04); }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    nav ul { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column;
+      background: rgba(10,10,15,0.95); backdrop-filter: blur(12px); padding: 1.5rem 2rem; gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    nav ul.active { display: flex; }
+    .nav-toggle { display: block; }
+    .hero-name { font-size: 2.2rem; }
+    .hero-avatar { width: 180px; height: 180px; font-size: 3.5rem; }
+    #hero .container { justify-content: center; text-align: center; }
+    .hero-btns { justify-content: center; }
+    .hero-desc { max-width: 100%; }
+    .about-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.6rem; }
+  }
+
+  @media (max-width: 480px) {
+    section { padding: 4rem 1rem; }
+    .timeline-header { flex-direction: column; }
+    .hero-name { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas" width="1659" height="935"></canvas>
+
+<!-- ===== Navigation ===== -->
+<nav>
+  <div class="logo">&lt;<span>Portfolio</span>/&gt;</div>
+  <button class="nav-toggle" aria-label="菜单" onclick="document.querySelector(&#39;nav ul&#39;).classList.toggle(&#39;active&#39;)">☰</button>
+  <ul>
+    <li><a href="file:///D:/portfolio/index.html#hero" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">首页</a></li>
+    <li><a href="file:///D:/portfolio/index.html#about" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">关于</a></li>
+    <li><a href="file:///D:/portfolio/index.html#skills" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">技能</a></li>
+    <li><a href="file:///D:/portfolio/index.html#experience" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">经历</a></li>
+    <li><a href="file:///D:/portfolio/index.html#projects" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">项目</a></li>
+    <li><a href="file:///D:/portfolio/index.html#contact" onclick="document.querySelector(&#39;nav ul&#39;).classList.remove(&#39;active&#39;)">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-text">
+      <p class="hero-greeting">👋 你好，我是</p>
+      <h1 class="hero-name"><span contenteditable="true">黄恒</span></h1>
+      <p class="hero-title">AI 产品运营 / AI Product Operations</p>
+      <p class="hero-desc">
+        专注于 AI 产品的运营与增长，擅长将大模型能力转化为用户价值。
+        具备 xxx 年经验，主导过多个从 0 到 1 的 AI 产品落地项目。
+      </p>
+      <div class="hero-btns">
+        <a href="file:///D:/portfolio/index.html#projects" class="btn btn-primary">📂 查看作品</a>
+        <a href="file:///D:/portfolio/index.html#contact" class="btn btn-outline">📬 联系我</a>
+      </div>
+    </div>
+    <div class="hero-avatar">🧑‍💻</div>
+  </div>
+</section>
+
+<!-- ===== About Me ===== -->
+<section id="about">
+  <div class="container">
+    <p class="section-tag">About</p>
+    <h2 class="section-title">关于我</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          我是一名 AI 产品运营，致力于在人工智能与用户需求之间架起桥梁。
+          我擅长将复杂的大模型能力转化为易懂、易用的产品体验，并通过数据驱动的方式持续优化产品增长。
+        </p>
+        <p>
+          具备扎实的 Prompt Engineering、数据分析、用户研究和项目管理能力。
+          热爱探索前沿 AI 技术，并能快速将其落地为实际可用的产品方案。
+        </p>
+        <p>
+          曾主导过多款 AI 产品的冷启动、用户增长和内容运营，擅长从 0 到 1 搭建运营体系。
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="num" contenteditable="true">X</div>
+          <div class="label">年运营经验</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" contenteditable="true">XX+</div>
+          <div class="label">主导项目</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" contenteditable="true">XXX%</div>
+          <div class="label">最高增长</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" contenteditable="true">XX万</div>
+          <div class="label">覆盖用户</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Skills ===== -->
+<section id="skills">
+  <div class="container">
+    <p class="section-tag">Skills</p>
+    <h2 class="section-title">专业技能</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h3><span class="icon">🤖</span> AI 工具 &amp; 平台</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">ChatGPT / GPT-4</span>
+          <span class="skill-tag">Claude</span>
+          <span class="skill-tag">Midjourney</span>
+          <span class="skill-tag">Stable Diffusion</span>
+          <span class="skill-tag">DALL·E</span>
+          <span class="skill-tag">Copilot</span>
+          <span class="skill-tag">LangChain</span>
+          <span class="skill-tag">RAG</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><span class="icon">📊</span> 数据分析</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Excel 高级</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">Google Analytics</span>
+          <span class="skill-tag">A/B 测试</span>
+          <span class="skill-tag">用户画像</span>
+          <span class="skill-tag">漏斗分析</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><span class="icon">🚀</span> 产品运营</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">用户增长</span>
+          <span class="skill-tag">内容运营</span>
+          <span class="skill-tag">社区运营</span>
+          <span class="skill-tag">活动策划</span>
+          <span class="skill-tag">用户研究</span>
+          <span class="skill-tag">竞品分析</span>
+          <span class="skill-tag">PRD 撰写</span>
+          <span class="skill-tag">项目管理</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><span class="icon">🔧</span> Prompt Engineering</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Few-shot Prompting</span>
+          <span class="skill-tag">Chain of Thought</span>
+          <span class="skill-tag">System Prompt 设计</span>
+          <span class="skill-tag">Fine-tuning 基础</span>
+          <span class="skill-tag">Prompt 模板化</span>
+          <span class="skill-tag">质量评估</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><span class="icon">🛠</span> 工具链</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Notion</span>
+          <span class="skill-tag">飞书</span>
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Axure</span>
+          <span class="skill-tag">Canva</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3><span class="icon">💡</span> 软技能</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">跨部门协作</span>
+          <span class="skill-tag">需求沟通</span>
+          <span class="skill-tag">技术理解</span>
+          <span class="skill-tag">快速学习</span>
+          <span class="skill-tag">演讲表达</span>
+          <span class="skill-tag">逻辑思维</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Experience ===== -->
+<section id="experience">
+  <div class="container">
+    <p class="section-tag">Experience</p>
+    <h2 class="section-title">工作经历</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <div>
+            <span class="timeline-role">AI 产品运营负责人</span>
+            <span class="timeline-company"> — XX科技</span>
+          </div>
+          <span class="timeline-date">202X.XX — 至今</span>
+        </div>
+        <div class="timeline-desc">
+          <ul>
+            <li>负责公司核心 AI 对话产品的整体运营策略制定与执行</li>
+            <li>搭建从 0 到 1 的用户增长体系，月活用户从 X 万增长至 XX 万</li>
+            <li>主导 Prompt 模板库建设，沉淀 XXX+ 行业场景模板，用户采纳率 XX%</li>
+            <li>构建数据监控看板，通过 A/B 测试优化转化率，核心指标提升 XX%</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <div>
+            <span class="timeline-role">高级产品运营</span>
+            <span class="timeline-company"> — XX互联网</span>
+          </div>
+          <span class="timeline-date">202X.XX — 202X.XX</span>
+        </div>
+        <div class="timeline-desc">
+          <ul>
+            <li>负责 AI 内容生成工具的冷启动运营，0 预算获取首批 X 万种子用户</li>
+            <li>策划并执行线上活动 XX 场，平均参与率 XX%，带动付费转化率提升 XX%</li>
+            <li>建立用户反馈闭环机制，推动产品迭代 XX 次关键功能优化</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <div>
+            <span class="timeline-role">产品运营专员</span>
+            <span class="timeline-company"> — XX科技</span>
+          </div>
+          <span class="timeline-date">202X.XX — 202X.XX</span>
+        </div>
+        <div class="timeline-desc">
+          <ul>
+            <li>参与 B 端 SaaS 产品的运营推广，服务 XX+ 企业客户</li>
+            <li>撰写产品文档、帮助中心和运营文案 XXX+ 篇</li>
+            <li>协助搭建客户成功体系，客户留存率提升至 XX%</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Projects ===== -->
+<section id="projects">
+  <div class="container">
+    <p class="section-tag">Projects</p>
+    <h2 class="section-title">精选项目</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <h3>🤖 AI 对话产品 Prompt 模板体系</h3>
+        <p>主导搭建了一套覆盖 XX 个行业场景的 Prompt 模板库，通过模板化降低用户使用门槛，模板周使用量达 XX 万次，带动次日留存提升 XX%。</p>
+        <div class="project-meta">
+          <span>Prompt Engineering</span>
+          <span>用户增长</span>
+          <span>内容运营</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>📈 AI 产品从 0 到 1 增长体系</h3>
+        <p>为某 AI 产品设计并落地完整的增长运营体系，包含裂变活动、内容营销、社区运营等策略，X 个月内实现 MAU 从 0 到 XX 万。</p>
+        <div class="project-meta">
+          <span>增长策略</span>
+          <span>数据分析</span>
+          <span>活动策划</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>🎯 AI 产品用户反馈体系搭建</h3>
+        <p>建立 AI 产品特有的用户反馈闭环机制，结合 LLM 自动分类用户反馈，将反馈到迭代的周期从 X 周缩短至 X 天，NPS 提升 XX 分。</p>
+        <div class="project-meta">
+          <span>用户研究</span>
+          <span>流程优化</span>
+          <span>自动化</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>📝 AI 内容社区冷启动</h3>
+        <p>策划并执行 AI 创作社区的冷启动方案，通过种子用户邀请制 + UGC 激励策略，X 周内聚集 XX 名活跃创作者，产出优质内容 XXX+ 篇。</p>
+        <div class="project-meta">
+          <span>社区运营</span>
+          <span>内容策略</span>
+          <span>冷启动</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>🎓 AI 产品用户教育体系</h3>
+        <p>设计并制作 AI 产品的用户教育内容矩阵，包括教程文档、视频课程和交互式指南，用户上手时长降低 XX%，客服工单量下降 XX%。</p>
+        <div class="project-meta">
+          <span>用户教育</span>
+          <span>内容制作</span>
+          <span>数据验证</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>🔬 大模型能力测评 &amp; 竞品分析</h3>
+        <p>主导搭建了 AI 模型能力横向测评体系，定期输出竞品分析报告，为产品方向决策提供数据支撑，推动关键功能需求 XX 项落地。</p>
+        <div class="project-meta">
+          <span>竞品分析</span>
+          <span>模型测评</span>
+          <span>产品策略</span>
+        </div>
+        <a href="file:///D:/portfolio/index.html#" class="link">查看详情 →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section id="contact">
+  <div class="container">
+    <p class="section-tag">Contact</p>
+    <h2 class="section-title" style="display:inline-block;">联系我</h2>
+    <p style="color:#8888a0;margin-top:-1.5rem;margin-bottom:1rem;">期待与您交流，欢迎随时联系</p>
+    <div class="contact-links">
+      <a href="mailto:yourname@email.com" class="contact-link">
+        <span class="icon">📧</span>
+        <span class="label">邮箱</span>
+        <span class="value" contenteditable="true">yourname@email.com</span>
+      </a>
+      <a href="file:///D:/portfolio/index.html#" class="contact-link">
+        <span class="icon">💬</span>
+        <span class="label">微信</span>
+        <span class="value" contenteditable="true">YourWeChat</span>
+      </a>
+      <a href="file:///D:/portfolio/index.html#" class="contact-link">
+        <span class="icon">🔗</span>
+        <span class="label">LinkedIn</span>
+        <span class="value">链接主页</span>
+      </a>
+      <a href="file:///D:/portfolio/index.html#" class="contact-link">
+        <span class="icon">📱</span>
+        <span class="label">电话</span>
+        <span class="value" contenteditable="true">138-xxxx-xxxx</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Portfolio. Designed &amp; Built with ❤️</p>
+</footer>
+
+<!-- ===== Background Animation ===== -->
+<script>
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Create particles
+  particles = Array.from({ length: 60 }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    r: Math.random() * 2 + 1,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // Draw particles
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(108, 92, 231, 0.3)';
+      ctx.fill();
+    });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(108, 92, 231, ${0.08 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function update() {
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    });
+  }
+
+  function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+
+
+
+</body></html>
